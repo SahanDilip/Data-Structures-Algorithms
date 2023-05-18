@@ -24,11 +24,11 @@ struct Graph {
         }
     }
 
-    void addedgealtered(int u, int v) {
+    void addedge(int u, int v) {
 
         nodes[u - 1].neighbours.push_back(v);   //node u and push v into u's neighbour
 
-        //nodes[v - 1].neighbours.push_back(u);   //node v and push u into v's neighbour
+        nodes[v - 1].neighbours.push_back(u);   //node v and push u into v's neighbour
     }
 
     void print() {
