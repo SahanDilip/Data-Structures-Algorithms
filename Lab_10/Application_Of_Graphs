@@ -1,0 +1,64 @@
+#include <iostream>
+#include<list>
+#include <vector>
+#include "Vector.h"
+
+using namespace std;
+
+struct Node{
+
+    int label;
+    list <int> neighbours;
+
+};
+
+struct Graph {
+
+    int n = 8;  //graph will have an array of type "node" with length  8 since there are 8 nodes.
+    Node *nodes = new Node[n];
+
+    void intializenodes() {
+        //iterate through the nodes and assign labels
+        for (int i = 0; i < n; i++) {
+            nodes[i].label = i + 1;
+        }
+    }
+
+    void addedgealtered(int u, int v) {
+
+        nodes[u - 1].neighbours.push_back(v);   //node u and push v into u's neighbour
+
+        //nodes[v - 1].neighbours.push_back(u);   //node v and push u into v's neighbour
+    }
+
+    void print() {
+        //lets iterate through each node and print its neighbours
+        for (int i = 0; i < n; i++) {
+            cout << nodes[i].label<<"-->";
+            for (int neighbours: nodes[i].neighbours) {
+                cout << " " << neighbours;
+            }
+            cout << endl;
+        }
+    }
+};
+
+int main() {
+    Graph * g = new Graph;
+    g->intializenodes();
+
+    g->addedge(1,2);    //add edges for the graphs here.
+    g->addedge(1,4);
+    g->addedge(1,3);
+    g->addedge(1,5);
+    g->addedge(2,3);
+    g->addedge(2,6);
+    g->addedge(4,6);
+    g->addedge(4,8);
+    g->addedge(4,7);
+    g->addedge(5,8);
+    g->addedge(5,6);
+    g->addedge(5,7);
+
+    g->print(); //print the graph adjaceny list
+}
