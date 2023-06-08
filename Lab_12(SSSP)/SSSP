@@ -1,0 +1,81 @@
+#include <iostream>
+#include <climits>
+
+void printSolution(int shortestDistance[], int sourcenode){
+
+    int sum = 0;
+    double average;
+    double averageList[6];
+
+    // Loop through all the nodes and print their shortest distance from the source node
+    for (int i = 0; i < 6; i++){
+        std::cout << "Shortest Distance from Source "<<" " << sourcenode<<" to " << "city"<< " "<< i<<", " << shortestDistance[i] << std::endl;
+
+        sum = sum + shortestDistance[i];
+    }
+
+    // Compute the average distance and print it
+    average = static_cast<double>(sum) / 5;
+    std::cout << std::fixed << "Average distance: " << average << std::endl;
+    std::cout << std::endl;
+}
+
+void dijskstra(int source) {
+
+    int graph[6][6] = {{0,  10, 0,  0,  15, 5},
+                       {10, 0,  10, 30, 0,  0},
+                       {0,  10, 0,  12, 5,  0},
+                       {0,  30, 12, 0,  0,  20},
+                       {15, 0,  5,  0,  0,  0},
+                       {0,  0,  0,  20, 0,  0}};
+
+    // arrays to hold the shortest distance from the source node to each node in the graph,
+    // boolean array to keep track of which nodes have been visited
+    int shortestDistance[6];
+    bool checkList[6];
+
+    // Initialize the shortest distances to infinity and set all nodes to unvisited
+    int min = INT_MAX, min_index;
+    for(int i = 0 ; i <6; i++)
+        shortestDistance[i] = INT_MAX,checkList[i] = false;
+
+    shortestDistance[source] = 0;
+
+    // Run Dijkstra's algorithm for all nodes in the graph
+    for( int count = 0; count < 5 ; count++) {
+
+        // Find the node with the shortest distance that hasn't been visited yet
+        int u = -1;
+        for (int k = 0; k < 6; k++){
+            if (!checkList[k] && (u == -1 || shortestDistance[k] < shortestDistance[u]))
+                u = k;
+        }
+
+        // Mark the node as visited
+        checkList[u] = true;
+
+        // Update the shortest distances for all neighboring nodes that haven't been visited yet
+        for(int j = 0; j < 6; j++){
+            if(!checkList[j] && graph[u][j] &&
+               shortestDistance[u] != INT_MAX
+               && shortestDistance[u] + graph[u][j] < shortestDistance[j])
+                shortestDistance[j] = shortestDistance[u] + graph[u][j];
+        }
+    }
+
+    // Print the shortest distance and average distance from the source node to all other nodes
+    printSolution(shortestDistance,source);
+}
+
+
+int main() {
+
+    dijskstra(0);
+    dijskstra(1);
+    dijskstra(2);
+    dijskstra(3);
+    dijskstra(4);
+    dijskstra(5);
+
+    return 0;
+}
